@@ -8,29 +8,33 @@ document.querySelector("#host-name").innerHTML = "Evan";
 document.querySelector("#collaborator-name").innerHTML = "Flora";
 
 // Question 2
-// You can also create their own CSS classes in style.css file and use that. 
-let hidebutton = document.querySelector("#instruction_button");
-hidebutton.addEventListener("click", hideInstructions);
-
-function hideInstructions() {
-    let questions = document.querySelectorAll(".question"); 
-    for(let i = 0; i < questions.length; i++){
-        questions[i].style.display = "none";
+// You can also create their own CSS classes in style.css file and use that.
+let hidden = false;
+document.querySelector("#instruction_button").addEventListener("click", function() {
+    let questions = document.querySelectorAll(".question");
+    if (hidden) {
+        for(let i = 0; i < questions.length; i++){
+            questions[i].classList.remove("hidden");
+        }
+        hidden = false;
+        this.innerHTML = "Hide Instructions";
+    } else {
+        for(let i = 0; i < questions.length; i++){
+            questions[i].classList.add("hidden");
+        }
+        hidden = true;
+        this.innerHTML = "Show Instructions";
     }
-}
+});
 
 
 // Question 3
 // Try change event first
 // There is another event which fires for every character. This is what we want to use.
-let firstName = document.getElementById("first_name");
-firstName.addEventListener('change', function() {
-    let x = document.getElementById("first_name").value;
-    let text;
-    if (x == "John") {
-        text = "Doe";
+document.getElementById("first_name").addEventListener('input', function() {
+    if (this.value == "John") {
+        document.getElementById("last_name").value = "Doe";
     }
-    document.getElementById("last_name").innerHTML = text;
 });
 
 
@@ -39,42 +43,61 @@ firstName.addEventListener('change', function() {
 // There is another event which fires for every character. This is what we want to use.
 
 
+document.getElementById("user_name").addEventListener('input', function() {
+    let exists = false;
+    for (let i = 0; i < pokemonList.length; i++) {
+        if (this.value == pokemonList[i]) {
+            exists = true;
+        }
+    }
+    if (exists) {
+        document.getElementById("username-alert").innerHTML = "Username already exists";
+    } else {
+        document.getElementById("username-alert").innerHTML = "Unique username created";
+    }
+});
+
 
 // Question 5
 // Try change event first
 // There is another event which fires for every character. This is what we want to use.
-function match(p1, p2) {
-    if (p1 != p2) { 
+document.querySelector("#password").addEventListener("input", function() {
+    if (document.querySelector("#password").value != document.querySelector("#confirm_password").value) {
         document.querySelector("#password-alert").innerHTML = "Password does not match";
-    } 
-    else{
+    } else {
         document.querySelector("#password-alert").innerHTML = "Password Matches";
     }
-}
-let p1 = document.querySelector("#password");
-let p2 = document.querySelector("#confirm_password");
-document.querySelector("#password-alert").addEventListener("onkeyup", match(p1.value, p2.value));
-
-
+});
+document.querySelector("#confirm_password").addEventListener("input", function() {
+    if (document.querySelector("#password").value != document.querySelector("#confirm_password").value) {
+        document.querySelector("#password-alert").innerHTML = "Password does not match";
+    } else {
+        document.querySelector("#password-alert").innerHTML = "Password Matches";
+    }
+});
 
 
 //Question 6
-
-
-
-
+document.querySelector("#radio-reset-button").addEventListener("click", function() {
+    document.querySelector("#week_tue").checked = false;
+    document.querySelector("#week_wed").checked = false;
+    document.querySelector("#week_thu").checked = false;
+});
 
 //Question 7 
-
-
-
-
+document.querySelector("#profile_pic").addEventListener("change", function() {
+    if (this.files[0].size > 102400) {
+        alert("File size cannot exceed 100KB");
+        this.value = null;
+    }
+})
 
 //Question 8
-
-
-
-
+document.querySelector("#color-picker").addEventListener("change", function() {
+    document.body.style.backgroundColor = this.value;
+});
 
 //Question 9 
-
+document.querySelector(".reset-form-button").addEventListener("click", function() {
+    document.querySelector("form").reset();
+});
